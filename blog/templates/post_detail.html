@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% if post %}
+            {{ post.title }}
+        {% else %}
+            Пост не знайдено
+        {% endif %}
+    </title>
+</head>
+<body>
+    {% if post %}
+        <h1>{{ post.title }}</h1>
+        <p><strong>Автор:</strong>
+            {% if post.author %}
+                <a href="{% url 'posts_by_author' post.author.pk %}">{{ post.author.name }}</a>
+            {% else %}
+                Невідомий
+            {% endif %}
+        </p>
+        <p><strong>Дата публікації:</strong> {{ post.published_date }}</p>
+        <hr>
+        <p><strong>Контент:</strong> {{ post.content }}</p>
+
+        <h2>Коментарі:</h2>
+        {% if post.comments.all %}
+            <ul>
+                {% for comment in post.comments.all %}
+                    <li>
+                        <strong>{{ comment.author_name }}</strong> ({{ comment.created_date|date:"d.m.Y H:i" }}):<br>
+                        {{ comment.text }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Поки немає коментарів.</p>
+        {% endif %}
+
+    {% else %}
+        <p>Пост не знайдено.</p>
+    {% endif %}
+
+    <p><a href="{% url 'post_list' %}">← Назад до списку постів</a></p>
+</body>
+</html>

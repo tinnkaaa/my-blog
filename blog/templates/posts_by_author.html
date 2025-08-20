@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% if author %}Пости автора {{ author.name }}{% else %}Автор не знайдено{% endif %}
+    </title>
+</head>
+<body>
+    {% if author %}
+        <h1>Пости автора {{ author.name }}</h1>
+        <p><em>Біографія:</em> {{ author.bio }}</p>
+        <hr>
+        {% if posts %}
+            <ul>
+                {% for post in posts %}
+                    <li>
+                        <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+                        ({{ post.published_date }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Постів ще немає.</p>
+        {% endif %}
+    {% else %}
+        <h2>Автор не знайдений</h2>
+    {% endif %}
+
+    <p><a href="{% url 'post_list' %}">← Назад до списку постів</a></p>
+</body>
+</html>

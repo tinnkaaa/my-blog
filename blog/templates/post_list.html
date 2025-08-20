@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>MyBlog</title>
+    <title>Список постів</title>
 </head>
 <body>
     <h1>Список постів</h1>
     <ul>
         {% for post in posts %}
             <li>
-                <strong>{{ post.title }}</strong> - {{ post.published_date }}
+                <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+                - автор:
+                {% if post.author %}
+                    <a href="{% url 'posts_by_author' post.author.pk %}">{{ post.author.name }}</a>
+                {% else %}
+                    невідомий
+                {% endif %}
             </li>
+        {% empty %}
+            <li>Постів ще немає.</li>
         {% endfor %}
     </ul>
 </body>
